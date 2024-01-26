@@ -5,32 +5,41 @@ const port = process.env.PORT || 3000;
 const is_qoddi = process.env.IS_QODDI || false;
 
 const dbConfig = {
-	host: "hsql.freedb.tech",
+	host: "sql.freedb.tech",
 	user: "freedb_2350_main.",
 	password: "kXy@3H$c5M&W5eq",
 	database: "freedb_COMP2350_week3_A01342823",
 	multipleStatements: false
 };
 
-var database = mysql.createPool(dbConfig);
+const qoddiDbConfig = {
+    host: "sql.freedb.tech",
+    user: "freedb_2350_main.",
+    password: "kXy@3H$c5M&W5eq",
+    database: "freedb_COMP2350_week3_A01342823",
+    multipleStatements: false
+};
+
+const databaseConfig = is_qoddi ? qoddiDbConfig : dbConfig;
+var database = mysql.createPool(databaseConfig);
+
 
 async function printMySQLVersion() {
-	let sqlQuery = `
-		SHOW VARIABLES LIKE 'version';
-	`;
-	
+  let sqlQuery = `
+      SHOW VARIABLES LIKE 'version';
+    `;
+    
 	try {
-		const results = await database.query(sqlQuery);
-		console.log("Successfully connected to MySQL");
-		console.log(results[0]);
-		return true;
-	}
-	catch(err) {
-		console.log("Error getting version from MySQL");
-		return false;
+			const results = await database.query(sqlQuery);
+			console.log("Successfully connected to MySQL");
+			console.log(results[0]);
+			return true;
+	} 
+	catch (err) {
+			console.log("Error getting version from MySQL");
+			return false;
 	}
 }
-
 
 http.createServer(function(req, res) {
 	console.log("page hit");
@@ -64,6 +73,3 @@ http.createServer(function(req, res) {
 		console.log("Error connecting to mysql");
 	}
 }).listen(port);
-
-
-
