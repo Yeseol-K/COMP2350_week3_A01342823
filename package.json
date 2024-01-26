@@ -1,0 +1,13 @@
+{
+	"name": "tutorial",
+	"version": "1.0.0",
+	"scripts": {
+		"start": "node index.js"
+	},
+	"dependencies": {
+		"mysql": "^2.18.1",
+		"mysql2": "^2.1.0"
+	},
+	"author": "Patrick",
+	"license": "ISC"
+}
